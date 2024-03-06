@@ -26,8 +26,9 @@ class MainScreen : Fragment() {
         _binding = ScreenMainBinding.inflate(inflater, container, false)
         repository = RepositoryPuzzle(requireContext())
         presenter = MainPresenter(repository = repository, view = this)
-        return binding.root
         loadUiClickable()
+        return binding.root
+
     }
 
     private fun loadUiClickable() {

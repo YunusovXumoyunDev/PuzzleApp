@@ -14,6 +14,7 @@ class PuzzlePresenter(
     private val numbers = ArrayList(repository.getNumbers())
     private var hideIndex = 0
     private var countStep = 0
+    private var count:Int?=null
 
     init {
         numbers.forEachIndexed { index, i ->
@@ -36,7 +37,7 @@ class PuzzlePresenter(
             replace(index)
             if (checkIsSuccess()) {
                 view.stopTimer()
-                repository.setCountOne(countStep.toString())
+                count=countStep
             } else {
                 view.loadCount(countStep)
             }
@@ -62,5 +63,11 @@ class PuzzlePresenter(
             }
         }
         return cond
+    }
+    fun getCount():String{
+        return count.toString()
+    }
+    fun clickBack(){
+        view.clickBack()
     }
 }

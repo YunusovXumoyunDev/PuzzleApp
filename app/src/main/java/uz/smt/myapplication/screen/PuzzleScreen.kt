@@ -24,9 +24,9 @@ class PuzzleScreen : Fragment() {
     private val looper = Looper.getMainLooper()
     private val handler = Handler(looper)
     private var time = 0
-    private var timeTxt:String=""
+    private var timeTxt: String = ""
     private var timeIsRunning = true
-    private var dialog:AlertDialog? = null
+    private var dialog: AlertDialog? = null
     private val threadTimer = Thread {
         while (timeIsRunning) {
             Thread.sleep(1000)
@@ -37,11 +37,11 @@ class PuzzleScreen : Fragment() {
                 val minText = if (min > 9) min.toString() else "0$min"
                 val secText = if (sec > 9) sec.toString() else "0$sec"
                 binding.time.text = "$minText : $secText"
-                timeTxt="$minText : $secText"
+                timeTxt = "$minText : $secText"
             }
         }
     }
-    private lateinit var dialogBinding :DialogScreenBinding
+    private lateinit var dialogBinding: DialogScreenBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -77,9 +77,11 @@ class PuzzleScreen : Fragment() {
         binding.btn16.setOnClickListener { presenter.click(15) }
 
         binding.restartBtn.setOnClickListener { presenter.clickRestart() }
+        binding.toolbar.setNavigationOnClickListener { presenter.clickBack() }
     }
-    private fun loadDialog(){
-        dialogBinding= DialogScreenBinding.inflate(layoutInflater)
+
+    private fun loadDialog() {
+        dialogBinding = DialogScreenBinding.inflate(layoutInflater)
         dialog = AlertDialog.Builder(requireContext())
             .setTitle("Name")
             .setView(dialogBinding.root)
@@ -91,23 +93,32 @@ class PuzzleScreen : Fragment() {
             }
             .create()
     }
-    private fun openResult(){
-        repositoryPuzzle.setTimeOne(timeTxt)
-        repositoryPuzzle.setNameOne(dialogBinding.name.text.toString())
+
+    private fun openResult() {
+        val name = dialogBinding.name.text.toString()
         parentFragmentManager.commit {
             setReorderingAllowed(true)
             replace(
                 R.id.fragment,
-                ResultScreen(),
+                ResultScreen::class.java,
+                bundleOf(
+                    "time" to timeTxt,
+                    "name" to name,
+                    "count" to presenter.getCount()),
                 "Result Screen"
             )
             addToBackStack(null)
         }
     }
+
+
     private fun openDialog() {
         dialog?.show()
     }
-    fun getName():String=dialogBinding.name.text.toString()
+    fun clickBack(){
+        parentFragmentManager.popBackStack()
+    }
+    fun getName(): String = dialogBinding.name.text.toString()
 
     fun startTimer() {
         time = 0

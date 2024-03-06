@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
             add(
                 R.id.fragment,
                 MainScreen(),
-                "Main Screen"
+                "Puzzle Screen"
             )
             addToBackStack(null)
         }
