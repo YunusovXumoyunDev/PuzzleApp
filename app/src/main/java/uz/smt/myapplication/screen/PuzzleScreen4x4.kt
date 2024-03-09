@@ -9,18 +9,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.commit
 import uz.smt.myapplication.R
 import uz.smt.myapplication.data.repository.RepositoryPuzzle
 import uz.smt.myapplication.databinding.DialogScreenBinding
 import uz.smt.myapplication.databinding.ScreenPuzzleBinding
-import uz.smt.myapplication.presenter.PuzzlePresenter
+import uz.smt.myapplication.presenter.PuzzlePresenter4x4
 
-class PuzzleScreen : Fragment() {
+class PuzzleScreen4x4 : Fragment() {
     private var _binding: ScreenPuzzleBinding? = null
     private val binding: ScreenPuzzleBinding get() = _binding!!
     private lateinit var repositoryPuzzle: RepositoryPuzzle
-    private lateinit var presenter: PuzzlePresenter
+    private lateinit var presenter: PuzzlePresenter4x4
     private val looper = Looper.getMainLooper()
     private val handler = Handler(looper)
     private var time = 0
@@ -48,7 +49,7 @@ class PuzzleScreen : Fragment() {
     ): View {
         _binding = ScreenPuzzleBinding.inflate(inflater, container, false)
         repositoryPuzzle = RepositoryPuzzle(requireContext())
-        presenter = PuzzlePresenter(repository = repositoryPuzzle, view = this)
+        presenter = PuzzlePresenter4x4(repository = repositoryPuzzle, view = this)
         return binding.root
 
     }
@@ -78,6 +79,7 @@ class PuzzleScreen : Fragment() {
 
         binding.restartBtn.setOnClickListener { presenter.clickRestart() }
         binding.toolbar.setNavigationOnClickListener { presenter.clickBack() }
+//        binding.restartBtn.setOnClickListener { presenter.restart() }
     }
 
     private fun loadDialog() {
@@ -93,7 +95,6 @@ class PuzzleScreen : Fragment() {
             }
             .create()
     }
-
     private fun openResult() {
         val name = dialogBinding.name.text.toString()
         parentFragmentManager.commit {
@@ -104,7 +105,8 @@ class PuzzleScreen : Fragment() {
                 bundleOf(
                     "time" to timeTxt,
                     "name" to name,
-                    "count" to presenter.getCount()),
+                    "count" to presenter.getCount()
+                ),
                 "Result Screen"
             )
             addToBackStack(null)
@@ -115,10 +117,17 @@ class PuzzleScreen : Fragment() {
     private fun openDialog() {
         dialog?.show()
     }
-    fun clickBack(){
-        parentFragmentManager.popBackStack()
-    }
-    fun getName(): String = dialogBinding.name.text.toString()
+
+    //    fun clickRestart(){
+//        parentFragmentManager.commit {
+//            setReorderingAllowed(true)
+//            replace(
+//                R.id.fragment,
+//                this@PuzzleScreen,
+//                "Puzzle Screen"
+//            )
+//        }
+//    }
 
     fun startTimer() {
         time = 0
@@ -142,6 +151,9 @@ class PuzzleScreen : Fragment() {
             else
                 setText(i, index)
         }
+    }
+    fun clickBack(){
+        parentFragmentManager.popBackStack()
     }
 
     fun setText(textBtn: Int, btnIndex: Int) {
@@ -228,6 +240,7 @@ class PuzzleScreen : Fragment() {
         }
     }
 
+
     fun hideVisible(btnIndex: Int) {
         when (btnIndex) {
             0 -> binding.btn1.apply { visibility = View.INVISIBLE }
@@ -247,6 +260,9 @@ class PuzzleScreen : Fragment() {
             14 -> binding.btn15.apply { visibility = View.INVISIBLE }
             15 -> binding.btn16.apply { visibility = View.INVISIBLE }
         }
+    }
+    fun getTime():Int{
+        return time
     }
 
     override fun onDestroy() {

@@ -23,10 +23,19 @@ class RecordScreen : Fragment(R.layout.screen_record) {
 
     }
 
-    fun loadUi() {
+    private fun loadUi() {
         binding.firstPlayerName.text = repository.getNameOne()
         binding.firstPlayerTime.text = requireArguments().getString("time").toString()
         binding.firstPlayerCount.text = repository.getCountOne()
+        binding.secondPlayerName.text = repository.getNameTwo()
+        binding.secondPlayerTime.text = requireArguments().getString("time").toString()
+        binding.secondPlayerCount.text = repository.getCountTwo()
+        binding.thirdPlayerName.text = repository.getNameThree()
+        binding.thirdPlayerTime.text = requireArguments().getString("time").toString()
+        binding.thirdPlayerCount.text = repository.getCountThree()
+        binding.fourthPlayerName.text = repository.getNameFour()
+        binding.fourthPlayerTime.text = requireArguments().getString("time").toString()
+        binding.fourthPlayerCount.text = repository.getCountFour()
     }
 
 

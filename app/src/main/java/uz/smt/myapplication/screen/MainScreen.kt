@@ -5,13 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.commit
 import uz.smt.myapplication.R
+import uz.smt.myapplication.data.model.LocalData
 import uz.smt.myapplication.data.repository.RepositoryPuzzle
 import uz.smt.myapplication.databinding.ScreenMainBinding
-import uz.smt.myapplication.databinding.ScreenPuzzleBinding
 import uz.smt.myapplication.presenter.MainPresenter
-import uz.smt.myapplication.presenter.PuzzlePresenter
 
 
 class MainScreen : Fragment() {
@@ -32,28 +32,53 @@ class MainScreen : Fragment() {
     }
 
     private fun loadUiClickable() {
-        binding.firstBtn.setOnClickListener { presenter.firstBtnClick() }
-        binding.secondBtn.setOnClickListener { presenter.secondBtnClick() }
-        binding.thirdBtn.setOnClickListener { presenter.thirdBtnClick() }
+        binding.firstBtn.setOnClickListener { presenter.clickFirstBtn() }
+        binding.secondBtn.setOnClickListener { presenter.clickSecondBtn() }
+        binding.thirdBtn.setOnClickListener { presenter.clickThirdBtn() }
     }
 
-    fun firstBtn() {
-
+    fun setFirstBtn(data: LocalData) {
+        binding.firstBtn.text = data.txt
     }
 
-    fun secondBtn() {
+    fun setSecondBtn(data: LocalData) {
+        binding.secondBtn.text = data.txt
+    }
+
+    fun setThirdBtn(data: LocalData) {
+        binding.thirdBtn.text = data.txt
+    }
+
+    fun openPuzzleScreen4x4() {
         parentFragmentManager.commit {
-            setReorderingAllowed(true)
             replace(
                 R.id.fragment,
-                PuzzleScreen(),
+                PuzzleScreen4x4(),
                 "Puzzle Screen"
             )
             addToBackStack(null)
         }
     }
 
-    fun thirdBtn() {
+    fun openPuzzleScreen3x3() {
+        parentFragmentManager.commit {
+            replace(
+                R.id.fragment,
+                PuzzleScreen3x3(),
+                "Puzzle Screen2"
+            )
+            addToBackStack(null)
+        }
+    }
 
+    fun openPuzzleScreen5x5() {
+        parentFragmentManager.commit {
+            replace(
+                R.id.fragment,
+                PuzzleScreen4x4(),
+                "Puzzle Screen"
+            )
+            addToBackStack(null)
+        }
     }
 }

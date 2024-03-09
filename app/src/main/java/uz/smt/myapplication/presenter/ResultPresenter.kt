@@ -8,24 +8,32 @@ class ResultPresenter(
     private val view: ResultScreen,
     private val repository: RepositoryPuzzle
 ) {
-    private fun checkRecord(){
-        if (
-            view.getTime().toInt()>repository.getTimeOne().toInt()&&
-            view.getTime().toInt()>repository.getTimeTwo().toInt()&&
-            view.getTime().toInt()>repository.getTimeThree().toInt()&&
-            view.getTime().toInt()>repository.getTimeFour().toInt()&&
-            view.getCount().toInt()>repository.getCountOne().toInt()&&
-            view.getCount().toInt()>repository.getCountTwo().toInt()&&
-            view.getCount().toInt()>repository.getCountThree().toInt()&&
-            view.getCount().toInt()>repository.getCountFour().toInt()
-        ){
-
-        }
+    init {
+        maximum()
     }
-    fun clickOK(){
+
+    fun clickOK() {
         view.openRecord()
     }
-    fun clickCANCEL(){
+
+    fun clickCANCEL() {
         view.backToPuzzle()
     }
+
+    private fun maximum() {
+        val numbers = listOf(
+            view.getCount(),
+            repository.getCountOne().toInt(),
+            repository.getCountTwo().toInt(),
+            repository.getCountThree().toInt(),
+            repository.getCountFour().toInt(),
+        )
+        val sortedNumbers = numbers.sortedWith(compareByDescending { it })
+        repository.setCountOne(sortedNumbers[3].toString())
+        repository.setCountSecond(sortedNumbers[2].toString())
+        repository.setCountThree(sortedNumbers[1].toString())
+        repository.setCountFour(sortedNumbers[0].toString())
+    }
 }
+
+

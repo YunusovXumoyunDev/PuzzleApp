@@ -1,6 +1,7 @@
 package uz.smt.myapplication.data.repository
 
 import android.content.Context
+import uz.smt.myapplication.data.model.LocalData
 import uz.smt.myapplication.data.storage.local.LocalStorage
 
 /**
@@ -9,6 +10,7 @@ import uz.smt.myapplication.data.storage.local.LocalStorage
  */
 class RepositoryPuzzle(private val context: Context) {
     private val storage = LocalStorage(context)
+    private var ls = ArrayList<LocalData>()
 
     fun setNameOne(name: String) {
         storage.nameOne = name
@@ -80,9 +82,59 @@ class RepositoryPuzzle(private val context: Context) {
         repeat(16) {
             ls.add(it + 1)
         }
+        ls[12]=16
         ls[14] = 14
-        ls[13] = 16
+        ls[13] = 13
         ls[15] = 15
         return ls
+
+    }
+    fun getNumbers2(): List<Int> {
+        val ls = ArrayList<Int>()
+        repeat(9) {
+            ls.add(it + 1)
+        }
+        return ls.shuffled()
+
+    }
+
+    fun getButtonId(): List<LocalData> {
+        return ls
+    }
+
+    fun getPuzzleById(id: Int): LocalData? {
+        val data = ls.find { item ->
+            item.id == id
+        }
+        return data
+    }
+
+    init {
+        loadList()
+    }
+
+    fun loadList() {
+        addPerson(
+            LocalData(
+                id = 0,
+                txt = "3x3"
+            )
+        )
+        addPerson(
+            LocalData(
+                id = 1,
+                txt = "4x4"
+            )
+        )
+        addPerson(
+            LocalData(
+                id = 2,
+                txt = "5x5"
+            )
+        )
+    }
+
+    private fun addPerson(data: LocalData) {
+        ls.add(data)
     }
 }
