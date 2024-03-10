@@ -9,7 +9,7 @@ class ResultPresenter(
     private val repository: RepositoryPuzzle
 ) {
     init {
-        maximum()
+        check()
     }
 
     fun clickOK() {
@@ -20,19 +20,82 @@ class ResultPresenter(
         view.backToPuzzle()
     }
 
-    private fun maximum() {
-        val numbers = listOf(
-            view.getCount(),
-            repository.getCountOne().toInt(),
-            repository.getCountTwo().toInt(),
-            repository.getCountThree().toInt(),
-            repository.getCountFour().toInt(),
-        )
-        val sortedNumbers = numbers.sortedWith(compareByDescending { it })
-        repository.setCountOne(sortedNumbers[3].toString())
-        repository.setCountSecond(sortedNumbers[2].toString())
-        repository.setCountThree(sortedNumbers[1].toString())
-        repository.setCountFour(sortedNumbers[0].toString())
+    private fun check() {
+        if (
+            view.getCount() > repository.getRecord1().count &&
+            view.getCount() > repository.getRecord2().count &&
+            view.getCount() > repository.getRecord3().count &&
+            view.getCount() > repository.getRecord4().count
+        ) {
+            repository.setRecord1(
+                user = view.getName(),
+                time = view.getTime(),
+                count = view.getCount()
+            )
+            repository.setRecord2(
+                user = repository.getRecord1().user,
+                time = repository.getRecord1().time,
+                count = repository.getRecord1().count
+            )
+            repository.setRecord3(
+                user = repository.getRecord2().user,
+                time = repository.getRecord2().time,
+                count = repository.getRecord2().count
+            )
+            repository.setRecord4(
+                user = repository.getRecord3().user,
+                time = repository.getRecord3().time,
+                count = repository.getRecord3().count
+            )
+        } else if (
+            view.getCount() < repository.getRecord1().count &&
+            view.getCount() > repository.getRecord2().count &&
+            view.getCount() > repository.getRecord3().count &&
+            view.getCount() > repository.getRecord4().count
+        ) {
+            repository.setRecord2(
+                user = view.getName(),
+                time = view.getTime(),
+                count = view.getCount()
+            )
+            repository.setRecord3(
+                user = repository.getRecord2().user,
+                time = repository.getRecord2().time,
+                count = repository.getRecord2().count
+            )
+            repository.setRecord4(
+                user = repository.getRecord3().user,
+                time = repository.getRecord3().time,
+                count = repository.getRecord3().count
+            )
+        } else if (
+            view.getCount() < repository.getRecord1().count &&
+            view.getCount() < repository.getRecord2().count &&
+            view.getCount() > repository.getRecord3().count &&
+            view.getCount() > repository.getRecord4().count
+        ) {
+            repository.setRecord3(
+                user = view.getName(),
+                time = view.getTime(),
+                count = view.getCount()
+            )
+            repository.setRecord4(
+                user = repository.getRecord3().user,
+                time = repository.getRecord3().time,
+                count = repository.getRecord3().count
+            )
+        } else if (
+            view.getCount() < repository.getRecord1().count &&
+            view.getCount() < repository.getRecord2().count &&
+            view.getCount() < repository.getRecord3().count &&
+            view.getCount() > repository.getRecord4().count
+        ) {
+            repository.setRecord4(
+                user = view.getName(),
+                time = view.getTime(),
+                count = view.getCount()
+            )
+        }
     }
 }
 

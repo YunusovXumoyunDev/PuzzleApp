@@ -26,6 +26,11 @@ class PuzzlePresenter4x4(
     }
 
     fun clickRestart() {
+        val numbers = ArrayList(repository.getNumbers())
+        numbers.forEachIndexed { index, i ->
+            if (i == 16)
+                hideIndex = index
+        }
         view.loadButtons(numbers)
     }
 

@@ -1,8 +1,9 @@
 package uz.smt.myapplication.data.repository
 
 import android.content.Context
-import uz.smt.myapplication.data.model.LocalData
 import uz.smt.myapplication.data.storage.local.LocalStorage
+import uz.smt.myapplication.data.model.LocalData
+import uz.smt.myapplication.data.model.RecordData
 
 /**
  *  This file is created by Saidmurod Turdiyev SMT for My Application app
@@ -12,89 +13,64 @@ class RepositoryPuzzle(private val context: Context) {
     private val storage = LocalStorage(context)
     private var ls = ArrayList<LocalData>()
 
-    fun setNameOne(name: String) {
-        storage.nameOne = name
+    fun setRecord1(user: String, time: Long, count: Int) {
+        storage.record1 = RecordData(user = user, time = time, count = count)
     }
 
-    fun setNameSecond(name: String) {
-        storage.nameTwo = name
+    fun setRecord2(user: String, time: Long, count: Int) {
+        storage.record2 = RecordData(user = user, time = time, count = count)
     }
 
-    fun setNameThree(name: String) {
-        storage.nameThree = name
+    fun setRecord3(user: String, time: Long, count: Int) {
+        storage.record3 = RecordData(user = user, time = time, count = count)
     }
 
-    fun setNameFour(name: String) {
-        storage.nameFour = name
+    fun setRecord4(user: String, time: Long, count: Int) {
+        storage.record4 = RecordData(user = user, time = time, count = count)
     }
 
-    fun setTimeOne(time: String) {
-        storage.nameOne = time
+    fun getRecord1(): RecordData {
+        return storage.record1
     }
 
-    fun setTimeSecond(time: String) {
-        storage.nameTwo = time
+    fun getRecord2(): RecordData {
+        return storage.record2
     }
 
-    fun setTimeThree(time: String) {
-        storage.nameThree = time
+    fun getRecord3(): RecordData {
+        return storage.record3
     }
 
-    fun setTimeFour(time: String) {
-        storage.nameFour = time
+    fun getRecord4(): RecordData {
+        return storage.record4
     }
-
-    fun setCountOne(count: String) {
-        storage.countOne = count
-    }
-
-    fun setCountSecond(count: String) {
-        storage.countTwo = count
-    }
-
-    fun setCountThree(count: String) {
-        storage.countThree = count
-    }
-
-    fun setCountFour(count: String) {
-        storage.countFour = count
-    }
-
-
-    fun getNameOne(): String = storage.nameOne
-    fun getNameTwo(): String = storage.nameTwo
-    fun getNameThree(): String = storage.nameThree
-    fun getNameFour(): String = storage.nameFour
-
-    fun getTimeOne(): String = storage.timeOne
-    fun getTimeTwo(): String = storage.timeTwo
-    fun getTimeThree(): String = storage.timeThree
-    fun getTimeFour(): String = storage.timeFour
-
-    fun getCountOne(): String = storage.countOne
-    fun getCountTwo(): String = storage.countTwo
-    fun getCountThree(): String = storage.countThree
-    fun getCountFour(): String = storage.countFour
-
 
     fun getNumbers(): List<Int> {
         val ls = ArrayList<Int>()
+//        repeat(15) {
+//            ls.add(it + 1)
+//        }
+//        ls.shuffle()
+//        ls.add(16)
+//tekshirish uchun
         repeat(16) {
             ls.add(it + 1)
         }
-        ls[12]=16
+        ls[12] = 16
         ls[14] = 14
         ls[13] = 13
         ls[15] = 15
         return ls
 
     }
+
     fun getNumbers2(): List<Int> {
         val ls = ArrayList<Int>()
         repeat(9) {
             ls.add(it + 1)
         }
-        return ls.shuffled()
+        ls.shuffle()
+        return ls
 
     }
 

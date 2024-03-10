@@ -35,7 +35,7 @@ class ResultScreen : Fragment(R.layout.screen_result) {
 
 
     fun openRecord() {
-        val timeTxt = requireArguments().getString("time")
+        val time = requireArguments().getString("time")
         val name = requireArguments().getString("name")
         val count = requireArguments().getInt("count")
         parentFragmentManager.commit {
@@ -44,7 +44,7 @@ class ResultScreen : Fragment(R.layout.screen_result) {
                 R.id.fragment,
                 RecordScreen::class.java,
                 bundleOf(
-                    "time" to timeTxt,
+                    "time" to time,
                     "name" to name,
                     "count" to count
                 ),
@@ -59,12 +59,14 @@ class ResultScreen : Fragment(R.layout.screen_result) {
             setReorderingAllowed(true)
             replace(
                 R.id.fragment,
-                PuzzleScreen4x4(),
-                "Puzzle Screen"
+                MainScreen(),
+                "Main Screen"
             )
             addToBackStack(null)
         }
     }
 
     fun getCount(): Int = requireArguments().getInt("count")
+    fun getTime():Long=requireArguments().getLong("time")
+    fun getName():String=requireArguments().getString("name").toString()
 }

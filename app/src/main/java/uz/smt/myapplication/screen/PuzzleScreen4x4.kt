@@ -25,6 +25,7 @@ class PuzzleScreen4x4 : Fragment() {
     private val looper = Looper.getMainLooper()
     private val handler = Handler(looper)
     private var time = 0
+    private var sendTime:Long?=null
     private var timeTxt: String = ""
     private var timeIsRunning = true
     private var dialog: AlertDialog? = null
@@ -39,6 +40,7 @@ class PuzzleScreen4x4 : Fragment() {
                 val secText = if (sec > 9) sec.toString() else "0$sec"
                 binding.time.text = "$minText : $secText"
                 timeTxt = "$minText : $secText"
+                sendTime=((min*100)+sec).toLong()
             }
         }
     }
@@ -79,7 +81,6 @@ class PuzzleScreen4x4 : Fragment() {
 
         binding.restartBtn.setOnClickListener { presenter.clickRestart() }
         binding.toolbar.setNavigationOnClickListener { presenter.clickBack() }
-//        binding.restartBtn.setOnClickListener { presenter.restart() }
     }
 
     private fun loadDialog() {
@@ -95,6 +96,7 @@ class PuzzleScreen4x4 : Fragment() {
             }
             .create()
     }
+
     private fun openResult() {
         val name = dialogBinding.name.text.toString()
         parentFragmentManager.commit {
@@ -103,7 +105,7 @@ class PuzzleScreen4x4 : Fragment() {
                 R.id.fragment,
                 ResultScreen::class.java,
                 bundleOf(
-                    "time" to timeTxt,
+                    "time" to sendTime,
                     "name" to name,
                     "count" to presenter.getCount()
                 ),
@@ -118,16 +120,6 @@ class PuzzleScreen4x4 : Fragment() {
         dialog?.show()
     }
 
-    //    fun clickRestart(){
-//        parentFragmentManager.commit {
-//            setReorderingAllowed(true)
-//            replace(
-//                R.id.fragment,
-//                this@PuzzleScreen,
-//                "Puzzle Screen"
-//            )
-//        }
-//    }
 
     fun startTimer() {
         time = 0
@@ -152,7 +144,8 @@ class PuzzleScreen4x4 : Fragment() {
                 setText(i, index)
         }
     }
-    fun clickBack(){
+
+    fun clickBack() {
         parentFragmentManager.popBackStack()
     }
 
@@ -261,7 +254,8 @@ class PuzzleScreen4x4 : Fragment() {
             15 -> binding.btn16.apply { visibility = View.INVISIBLE }
         }
     }
-    fun getTime():Int{
+
+    fun getTime(): Int {
         return time
     }
 

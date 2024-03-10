@@ -24,18 +24,21 @@ class RecordScreen : Fragment(R.layout.screen_record) {
     }
 
     private fun loadUi() {
-        binding.firstPlayerName.text = repository.getNameOne()
-        binding.firstPlayerTime.text = requireArguments().getString("time").toString()
-        binding.firstPlayerCount.text = repository.getCountOne()
-        binding.secondPlayerName.text = repository.getNameTwo()
-        binding.secondPlayerTime.text = requireArguments().getString("time").toString()
-        binding.secondPlayerCount.text = repository.getCountTwo()
-        binding.thirdPlayerName.text = repository.getNameThree()
-        binding.thirdPlayerTime.text = requireArguments().getString("time").toString()
-        binding.thirdPlayerCount.text = repository.getCountThree()
-        binding.fourthPlayerName.text = repository.getNameFour()
-        binding.fourthPlayerTime.text = requireArguments().getString("time").toString()
-        binding.fourthPlayerCount.text = repository.getCountFour()
+        binding.firstPlayerName.text = repository.getRecord1().user
+        binding.secondPlayerName.text = repository.getRecord2().user
+        binding.thirdPlayerName.text = repository.getRecord3().user
+        binding.fourthPlayerName.text = repository.getRecord4().user
+
+        binding.firstPlayerCount.text = repository.getRecord1().count.toString()
+        binding.secondPlayerCount.text = repository.getRecord2().count.toString()
+        binding.thirdPlayerCount.text = repository.getRecord3().count.toString()
+        binding.fourthPlayerCount.text = repository.getRecord4().count.toString()
+
+        binding.firstPlayerTime.text = repository.getRecord1().time.toString()
+        binding.secondPlayerTime.text = repository.getRecord2().time.toString()
+        binding.thirdPlayerTime.text = repository.getRecord3().time.toString()
+        binding.fourthPlayerTime.text = repository.getRecord4().time.toString()
+
     }
 
 

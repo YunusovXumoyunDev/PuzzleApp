@@ -24,7 +24,7 @@ class PuzzleScreen3x3 : Fragment() {
     private lateinit var presenter: PuzzlePresenter3x3
     private val looper = Looper.getMainLooper()
     private val handler = Handler(looper)
-    private var time = 0
+    private var time: Long = 0
     private var timeTxt: String = ""
     private var timeIsRunning = true
     private var dialog: AlertDialog? = null
@@ -87,6 +87,7 @@ class PuzzleScreen3x3 : Fragment() {
             }
             .create()
     }
+
     private fun openResult() {
         val name = dialogBinding.name.text.toString()
         parentFragmentManager.commit {
@@ -95,7 +96,7 @@ class PuzzleScreen3x3 : Fragment() {
                 R.id.fragment,
                 ResultScreen::class.java,
                 bundleOf(
-                    "time" to timeTxt,
+                    "time" to time,
                     "name" to name,
                     "count" to presenter.getCount()
                 ),
@@ -128,13 +129,14 @@ class PuzzleScreen3x3 : Fragment() {
 
     fun loadButtons(list: List<Int>) {
         list.forEachIndexed { index, i ->
-            if (i == 16)
+            if (i == 9)
                 hideVisible(index)
             else
                 setText(i, index)
         }
     }
-    fun clickBack(){
+
+    fun clickBack() {
         parentFragmentManager.popBackStack()
     }
 
@@ -202,9 +204,7 @@ class PuzzleScreen3x3 : Fragment() {
             8 -> binding.btn3x39.apply { visibility = View.INVISIBLE }
         }
     }
-    fun getTime():Int{
-        return time
-    }
+
 
     override fun onDestroy() {
         super.onDestroy()

@@ -2,38 +2,41 @@ package uz.smt.myapplication.data.storage.local
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.core.content.edit
+import uz.smt.myapplication.data.model.RecordData
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 /**
- *  This file is created by Saidmurod Turdiyev SMT for My Application app
- *  3/5/2024  7:35 PM  Asus Rog
+ *  This file is created by Saidmurod Turdiyev SMT for My Contact app
+ *  3/9/2024  8:09 PM  Asus Rog
  */
-class LocalStorage(context: Context) {
-
-    private val pref = context.getSharedPreferences("local_storadge", Context.MODE_PRIVATE)
-    var nameOne by StringDelegation(pref, "")
-    var nameTwo by StringDelegation(pref, "")
-    var nameThree by StringDelegation(pref, "")
-    var nameFour by StringDelegation(pref, "")
-    var countOne by StringDelegation(pref, "0")
-    var countTwo by StringDelegation(pref, "0")
-    var countThree by StringDelegation(pref, "0")
-    var countFour by StringDelegation(pref, "0")
-    var timeOne by StringDelegation(pref, "")
-    var timeTwo by StringDelegation(pref, "")
-    var timeThree by StringDelegation(pref, "")
-    var timeFour by StringDelegation(pref, "")
+class LocalStorage(private val context: Context) {
+    val pref=context.getSharedPreferences("local-storage",Context.MODE_PRIVATE)
+    var record1 by RecordDataDelegation(pref)
+    var record2 by RecordDataDelegation(pref)
+    var record3 by RecordDataDelegation(pref)
+    var record4 by RecordDataDelegation(pref)
 }
+//fun check(context: Context,data: RecordData){
+//    var obj=LocalStorage(context)
+//    if (obj.record1.time>data.time){
+//        obj.record1=RecordData("User 1",100L,13)
+//    }
+//}
+class RecordDataDelegation(private val pref:SharedPreferences):ReadWriteProperty<Any, RecordData>{
+    override fun getValue(thisRef: Any, property: KProperty<*>): RecordData {
+        val userName=pref.getString("${property.name} username","")?:""
+        val recordCount= pref.getInt("${property.name} count",-1)
+        val recordTime=pref.getLong("${property.name} time",-1)
+        return RecordData(user = userName, time = recordTime, count = recordCount)
+    }
 
-class StringDelegation(private val pref: SharedPreferences, private val defValue: String) :
-    ReadWriteProperty<Any, String> {
-    override fun getValue(thisRef: Any, property: KProperty<*>): String =
-        pref.getString(property.name, defValue) ?: ""
-
-    override fun setValue(thisRef: Any, property: KProperty<*>, value: String) =
-        pref.edit {
-            putString(property.name, value).apply()
+    override fun setValue(thisRef: Any, property: KProperty<*>, value: RecordData) {
+        pref.edit().apply {
+            putString("${property.name} username",value.user)
+            putLong("${property.name} time",value.time)
+            putInt("${property.name} count",value.count)
+            apply()
         }
+    }
 }

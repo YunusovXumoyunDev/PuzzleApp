@@ -26,7 +26,12 @@ class PuzzlePresenter3x3(
     }
 
     fun clickRestart() {
-        view.loadButtons(numbers2)
+        val numbers3 = ArrayList(repository.getNumbers2())
+        numbers3.forEachIndexed { index, i ->
+            if (i == 9)
+                hideIndex = index
+        }
+        view.loadButtons(numbers3)
     }
 
     fun click(index: Int) {
